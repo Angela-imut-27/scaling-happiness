@@ -1,6 +1,6 @@
 {
   "imports": {
-    "axios": "npm:axios",
-    "cheerio": "npm:cheerio"
+    "axios": "https://esm.sh/axios",
+    "cheerio": "https://esm.sh/cheerio"
   }
 }
