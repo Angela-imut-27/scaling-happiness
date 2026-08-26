@@ -1,6 +1,25 @@
 {
+  "nodeModulesDir": "auto",
+  "unstable": [
+    "unsafe-proto",
+    "sloppy-imports"
+  ],
   "imports": {
     "axios": "https://esm.sh/axios",
     "cheerio": "https://esm.sh/cheerio"
+  },
+  "compilerOptions": {
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
+    "strict": true,
+    "jsx": "preserve"
+  },
+  "tasks": {
+    "dev": "deno run -A --unstable-detect-cjs npm:next@latest dev",
+    "build": "deno run -A --unstable-detect-cjs npm:next@latest build",
+    "start": "deno run -A --unstable-detect-cjs npm:next@latest start"
   }
 }
