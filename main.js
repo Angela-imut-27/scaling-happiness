@@ -1,10 +1,10 @@
-// main.js - Gerbang Utama & Router Otomatis
+import "axios";
+import "cheerio";
 
 Deno.serve(async (request) => {
   const url = new URL(request.url);
   const pathname = url.pathname;
 
-  // Header default untuk CORS dan JSON
   const corsHeaders = {
     'Access-Control-Allow-Origin': '*',
     'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
@@ -12,12 +12,10 @@ Deno.serve(async (request) => {
     'Content-Type': 'application/json; charset=utf-8'
   };
 
-  // Tangani preflight request dari browser
   if (request.method === 'OPTIONS') {
     return new Response(null, { headers: corsHeaders });
   }
 
-  // Jika pengunjung membuka halaman root /
   if (pathname === '/' || pathname === '') {
     return new Response(JSON.stringify({
       status: true,
@@ -27,16 +25,12 @@ Deno.serve(async (request) => {
   }
 
   try {
-    // Memetakan URL langsung ke file di dalam folder api/
-    // Contoh: /api/tvone -> ./api/tvone.js
-    // Contoh: /tvone     -> ./api/tvone.js
+
     const cleanPath = pathname.startsWith('/api/') ? pathname.replace('/api/', '') : pathname.slice(1);
     const targetFile = `./api/${cleanPath}.js`;
 
-    // Impor file modul secara dinamis
     const module = await import(targetFile);
 
-    // Jalankan handler fungsi ekspor default di file tersebut
     if (typeof module.default === 'function') {
       return await module.default(request);
     } else {
